@@ -1,0 +1,21 @@
+.user_registration_form{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas: "a b c";
+}
+
+.form_registration{
+    grid-area: b;
+}
+
+#sign_in_margin_top{
+    margin-top: 5rem;
+}
+
+#sign_up_option{
+    margin-top: .7rem;
+}
+
+body{
+    background-color: rgb(146, 234, 250);
+}

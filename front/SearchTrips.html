@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Trips</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body>
+    <h2>Search Available Trips</h2>
+    <input type="text" id="searchInputTripId" placeholder="Trip ID">
+    <input type="text" id="searchInputFrom" placeholder="From">
+    <input type="text" id="searchInputTo" placeholder="To">
+    <input type="text" id="searchInputDeparture" placeholder="Departure Date">
+    <input type="text" id="searchInputReturn" placeholder="Return Date">
+    <input type="text" id="searchInputMaxLimit" placeholder="Max Limit">
+    
+    <button onclick="searchTrips()">Search</button>
+    <div id="searchResults"></div>
+    
+
+</body>
+<script>
+ var trips = [];
+// Call this function to fetch data when the page loads
+$(document).ready(function() {
+    showTrip();
+});
+
+ function showTrip() {
+    $.ajax({
+        url: "http://localhost:8080/trips",
+        method: "GET",
+        timeout: 0
+    })
+    .done(function(response) {
+    trips = response;
+    console.log(trips); // Check the structure here
+})
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        console.error('Error fetching data:', textStatus, errorThrown);
+    });
+}
+
+  function searchTrips() {   
+    var inputTripId = document.getElementById('searchInputTripId').value.toLowerCase();
+    var inputFrom = document.getElementById('searchInputFrom').value.toLowerCase();
+    var inputTo = document.getElementById('searchInputTo').value.toLowerCase();
+    var inputDeparture = document.getElementById('searchInputDeparture').value.toLowerCase();
+    var inputReturn = document.getElementById('searchInputReturn').value.toLowerCase();
+    var inputMaxLimit = document.getElementById('searchInputMaxLimit').value.toLowerCase();
+    
+    var results = document.getElementById('searchResults');
+    results.innerHTML = ''; // Clear previous results
+    
+    
+    var filteredTrips = trips.filter(function(trip) {
+    return (inputTripId === '' || trip.travelId.toString().toLowerCase().includes(inputTripId)) &&
+           (inputFrom === '' || trip.departureLocation.toLowerCase().includes(inputFrom)) &&
+           (inputTo === '' || trip.arrivalLocation.toLowerCase().includes(inputTo)) &&
+           (inputDeparture === '' || trip.departureDate.toLowerCase().includes(inputDeparture)) &&
+           (inputReturn === '' || trip.arrivalDate.toLowerCase().includes(inputReturn)) &&
+           (inputMaxLimit === '' || trip.maxLimit.toString().toLowerCase().includes(inputMaxLimit));
+           // Note: Removed agencyId as it's null in your data
+});
+
+    // Display results
+    filteredTrips.forEach(function(trip) {
+    results.innerHTML += 'Trip ID: ' + trip.travelId + 
+        ', From: ' + trip.departureLocation + 
+        ', To: ' + trip.arrivalLocation + 
+        ', Departure: ' + trip.departureDate + 
+        ', Return: ' + trip.arrivalDate +
+        ', Max Limit: ' + trip.maxLimit + '<br>';
+});
+
+    
+
+// Call this function to fetch data when the page loads
+$(document).ready(function() {
+    showTrip();
+});
+}
+
+
+</script>
+</html>

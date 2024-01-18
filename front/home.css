@@ -1,0 +1,14 @@
+.card_container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    grid-template-areas: "a b";
+    margin-top: 50px;
+
+}
+
+#card1{
+    grid-area: a;
+    justify-self: end
+}
+
