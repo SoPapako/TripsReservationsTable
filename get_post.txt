@@ -1,0 +1,31 @@
+get->http://localhost:8080/citizens
+
+response from getRequest:
+
+{
+        "citizenId": 1,
+        "afm": "kapoio",
+        "firstName": "Sot",
+        "lastName": "Pap",
+        "email": "sopa",
+        "password": "wer",
+        "trips": []
+    }
+
+#####################################
+
+post->localhost:8080/addCitizenToTrip
+
+{
+         
+    "travelId": 1,
+    "departureLocation": "Thessaloniki",
+    "arrivalLocation": "Vienna",
+    "departureDate": "2024-04-29T21:00:00.000+00:00",
+    "arrivalDate": "2024-05-04T21:00:00.000+00:00",
+    "maxLimit": 20,
+    "citizen": {
+        "citizenId": 1
+    }
+
+}
